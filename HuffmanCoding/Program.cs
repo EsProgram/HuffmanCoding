@@ -10,8 +10,8 @@ namespace HuffmanCoding
     {
         private static void Main(string[] args)
         {
-            Node root = new Node('a');
-            Node el1 = new Node('b');
+            Node<char, float> root = new Node<char, float>('a');
+            Node<char, float> el1 = new Node<char, float>('b');
             root.Left = el1;
 
             Console.WriteLine(root.Left.Element);

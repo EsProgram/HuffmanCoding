@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace HuffmanCoding
 {
-    internal class Node : DynamicObject
+    internal class Node<Tkey, Tval> : DynamicObject
     {
         private Dictionary<string, object> dynamic_field;//scalable element
-        private Node left;
-        private Node right;
+        private Node<Tkey, Tval> left;
+        private Node<Tkey, Tval> right;
 
         public char Element { get; private set; }//normal element
 
@@ -27,7 +27,7 @@ namespace HuffmanCoding
             set { right = value; }
         }
 
-        public Node(char code, Node left = null, Node right = null)
+        public Node(char code, Node<Tkey, Tval> left = null, Node<Tkey, Tval> right = null)
             : base()
         {
             dynamic_field = new Dictionary<string, object>();
