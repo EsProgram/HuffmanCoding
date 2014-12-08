@@ -10,11 +10,8 @@ namespace HuffmanCoding
     {
         private static void Main(string[] args)
         {
-            Node<char, float> root = new Node<char, float>('a');
-            Node<char, float> el1 = new Node<char, float>('b');
-            root.Left = el1;
-
-            Console.WriteLine(root.Left.Element);
+            Dictionary<char, float> data = new Dictionary<char, float>() { { '_', 18.59f }, { 'A', 6.42f } };
+            Huffman<char> huf = new Huffman<char>(data);
         }
     }
 }

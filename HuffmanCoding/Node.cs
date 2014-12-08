@@ -7,13 +7,27 @@ using System.Threading.Tasks;
 
 namespace HuffmanCoding
 {
-    internal class Node<Tkey, Tval> : DynamicObject
+    /// <summary>
+    /// 要素拡張が可能なノードオブジェクトを表現する
+    /// 標準要素の取得はElementプロパティにて行う
+    /// 任意にプロパティを動的拡張可能
+    /// </summary>
+    /// <typeparam name="TElement">ノードに割り当てられる要素の型</typeparam>
+    internal class Node<TElement> : DynamicObject
     {
-        private Dictionary<string, object> dynamic_field;//scalable element
-        private Node<Tkey, Tval> left;
-        private Node<Tkey, Tval> right;
+        private Dictionary<string, dynamic> dynamic_field;//scalable element
+        private Node<TElement> left;
+        private Node<TElement> right;
 
-        public char Element { get; private set; }//normal element
+        public TElement Element { get; private set; }//normal element
+
+        /// <summary>
+        /// 自身の動的ラッパオブジェクトを返す
+        /// </summary>
+        public dynamic Mine
+        {
+            get { return (dynamic)this; }
+        }
 
         public dynamic Left
         {
@@ -27,12 +41,12 @@ namespace HuffmanCoding
             set { right = value; }
         }
 
-        public Node(char code, Node<Tkey, Tval> left = null, Node<Tkey, Tval> right = null)
+        public Node(TElement element, Node<TElement> left = null, Node<TElement> right = null)
             : base()
         {
-            dynamic_field = new Dictionary<string, object>();
+            dynamic_field = new Dictionary<string, dynamic>();
 
-            Element = code;
+            Element = element;
             Left = left;
             Right = right;
         }
