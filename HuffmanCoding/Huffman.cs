@@ -35,7 +35,7 @@ namespace HuffmanCoding
             //個々のリーフノードに出現確率を割り当てる
             CreateLeafs(this.data);
             //リーフノードを降順ソート
-            nodes.OrderBy(n => n.prob);
+            nodes.Sort((a, b) => a.prob.CompareTo(b.prob));
             //木の生成
             //木生成時に出来たノードを拡張
             ////////////////////////////////////////////////
