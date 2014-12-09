@@ -54,15 +54,10 @@ namespace HuffmanCoding
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             if(dynamic_field.ContainsKey(binder.Name))
-            {
                 result = dynamic_field[binder.Name];
-                return true;
-            }
             else
-            {
                 result = null;
-                return false;
-            }
+            return true;
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
