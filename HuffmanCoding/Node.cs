@@ -7,63 +7,63 @@ using System.Threading.Tasks;
 
 namespace HuffmanCoding
 {
-  /// <summary>
-  /// 要素拡張が可能なノードオブジェクトを表現する
-  /// 標準要素の取得はElementプロパティにて行う
-  /// 任意にプロパティを動的拡張可能
-  /// </summary>
-  /// <typeparam name="TElement">ノードに割り当てられる要素の型</typeparam>
-  internal class Node<TElement> : DynamicObject
-  {
-	private Dictionary<string, dynamic> dynamic_field;//scalable element
-	private Node<TElement> left;
-	private Node<TElement> right;
-
-	public TElement Element { get; private set; }//normal element
-
 	/// <summary>
-	/// 自身の動的ラッパオブジェクトを返す
+	/// 要素拡張が可能なノードオブジェクトを表現する
+	/// 標準要素の取得はElementプロパティにて行う
+	/// 任意にプロパティを動的拡張可能
 	/// </summary>
-	public dynamic Mine
+	/// <typeparam name="TElement">ノードに割り当てられる要素の型</typeparam>
+	internal class Node<TElement> : DynamicObject
 	{
-	  get { return (dynamic)this; }
-	}
+		private Dictionary<string, dynamic> dynamic_field;//scalable element
+		private Node<TElement> left;
+		private Node<TElement> right;
 
-	public dynamic Left
-	{
-	  get { return (dynamic)left; }
-	  set { left = value; }
-	}
+		public TElement Element { get; private set; }//normal element
 
-	public dynamic Right
-	{
-	  get { return (dynamic)right; }
-	  set { right = value; }
-	}
+		/// <summary>
+		/// 自身の動的ラッパオブジェクトを返す
+		/// </summary>
+		public dynamic Mine
+		{
+			get { return (dynamic)this; }
+		}
 
-	public Node(TElement element, Node<TElement> left = null, Node<TElement> right = null)
-	  : base()
-	{
-	  dynamic_field = new Dictionary<string, dynamic>();
+		public dynamic Left
+		{
+			get { return (dynamic)left; }
+			set { left = value; }
+		}
 
-	  Element = element;
-	  Left = left;
-	  Right = right;
-	}
+		public dynamic Right
+		{
+			get { return (dynamic)right; }
+			set { right = value; }
+		}
 
-	public override bool TryGetMember(GetMemberBinder binder, out object result)
-	{
-	  if(dynamic_field.ContainsKey(binder.Name))
-		result = dynamic_field[binder.Name];
-	  else
-		result = null;
-	  return true;
-	}
+		public Node(TElement element, Node<TElement> left = null, Node<TElement> right = null)
+			: base()
+		{
+			dynamic_field = new Dictionary<string, dynamic>();
 
-	public override bool TrySetMember(SetMemberBinder binder, object value)
-	{
-	  dynamic_field[binder.Name] = value;
-	  return true;
+			Element = element;
+			Left = left;
+			Right = right;
+		}
+
+		public override bool TryGetMember(GetMemberBinder binder, out object result)
+		{
+			if(dynamic_field.ContainsKey(binder.Name))
+				result = dynamic_field[binder.Name];
+			else
+				result = null;
+			return true;
+		}
+
+		public override bool TrySetMember(SetMemberBinder binder, object value)
+		{
+			dynamic_field[binder.Name] = value;
+			return true;
+		}
 	}
-  }
 }
