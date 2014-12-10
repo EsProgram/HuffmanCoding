@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,16 @@ namespace HuffmanCoding
 		private dynamic root;//木のルートノード
 
 		public int MaxRank { get; private set; }
+
+		/// <summary>
+		/// 符号記号に割り付けられたコードを取得する
+		/// </summary>
+		/// <param name="element">符号記号</param>
+		/// <returns></returns>
+		public string this[TNodeElement element]
+		{
+			get { return GetCode(element); }
+		}
 
 		/// <summary>
 		/// データからハフマン符号を生成する
@@ -121,6 +132,27 @@ namespace HuffmanCoding
 			attach(root, 0, 'R');
 		}
 
+		/// <summary>
+		/// 標準出力から指定ストリームへのリダイレクトの後、アクションを実行する
+		/// アクション実行後、リダイレクト先は標準出力に戻る
+		/// </summary>
+		/// <param name="direction">リダイレクト先</param>
+		/// <param name="action">実行するアクション</param>
+		private void RedirectAction(TextWriter direction, Action action)
+		{
+			//書き込み先へリダイレクト
+			Console.SetOut(direction);
+			//アクションの実行
+			action();
+			//標準出力へ戻す
+			var c = new StreamWriter(Console.OpenStandardOutput());
+			c.AutoFlush = true;
+			Console.SetOut(c);
+		}
+
+		/// <summary>
+		/// ハフマン木を表示する
+		/// </summary>
 		public void PrintTree()
 		{
 			bool white_space = false;
@@ -152,6 +184,15 @@ namespace HuffmanCoding
 			Console.WriteLine();
 		}
 
+		/// <summary>
+		/// ハフマン木を書き込む
+		/// </summary>
+		/// <param name="tw">テキスト書き込み先</param>
+		public void PrintTree(TextWriter tw)
+		{
+			RedirectAction(tw, PrintTree);
+		}
+
 		public void PrintCode()
 		{
 			Action<dynamic> write_code = null;
@@ -171,6 +212,11 @@ namespace HuffmanCoding
 				write_code(i);
 				Console.WriteLine();
 			}
+		}
+
+		public void PrintCode(TextWriter tw)
+		{
+			RedirectAction(tw, PrintCode);
 		}
 
 		/// <summary>
@@ -195,11 +241,6 @@ namespace HuffmanCoding
 
 			getcode(node);
 			return sb.ToString();
-		}
-
-		public string this[TNodeElement element]
-		{
-			get { return GetCode(element); }
 		}
 	}
 }

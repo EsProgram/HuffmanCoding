@@ -23,7 +23,11 @@ namespace HuffmanCoding
 
 			Huffman<char> huf = new Huffman<char>(data);
 
-			Console.WriteLine(huf['*']);
+			using(TextWriter tx = new StreamWriter("out.txt"))
+			{
+				huf.PrintTree();
+				huf.PrintCode(tx);
+			}
 		}
 	}
 }
