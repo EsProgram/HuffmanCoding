@@ -172,5 +172,34 @@ namespace HuffmanCoding
 				Console.WriteLine();
 			}
 		}
+
+		/// <summary>
+		/// 符号記号に割り付けられたコードを取得する
+		/// </summary>
+		/// <param name="element">符号記号</param>
+		/// <returns></returns>
+		public string GetCode(TNodeElement element)
+		{
+			StringBuilder sb = new StringBuilder();
+			//該当するリーフノードを得る
+			dynamic node = leafs.FirstOrDefault(n => n.Element == element);
+			Action<dynamic> getcode = null;
+			getcode = (n) =>
+			{
+				if(n == null)
+					return;
+				getcode(n.parent);
+				if(n.code != 'R')
+					sb.Append(n.code);
+			};
+
+			getcode(node);
+			return sb.ToString();
+		}
+
+		public string this[TNodeElement element]
+		{
+			get { return GetCode(element); }
+		}
 	}
 }
